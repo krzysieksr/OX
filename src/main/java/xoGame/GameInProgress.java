@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class GameInProgress implements GameState {
-    private xoGame.Player currentPlayer;
+    private Player currentPlayer;
     private final XOBoard board;
     private VictoryChecker victoryChecker;
 
