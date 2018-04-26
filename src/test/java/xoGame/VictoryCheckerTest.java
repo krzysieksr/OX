@@ -2,6 +2,8 @@ package xoGame;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import xoGame.results.MatchResult;
+import xoGame.results.VictoryChecker;
 
 import java.util.Optional;
 

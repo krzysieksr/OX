@@ -1,7 +1,12 @@
-package xoGame;
+package xoGame.gameStates;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import xoGame.ScoreBoard;
+import xoGame.gameStates.EndOfTheGame;
+import xoGame.gameStates.GameState;
+import xoGame.gameStates.InitialState;
+import xoGame.results.GameResult;
 
 public class EndOfTheGameTest {
 

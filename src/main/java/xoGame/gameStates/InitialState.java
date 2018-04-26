@@ -1,4 +1,9 @@
-package xoGame;
+package xoGame.gameStates;
+
+import xoGame.Player;
+import xoGame.ScoreBoard;
+import xoGame.results.VictoryChecker;
+import xoGame.XOBoard;
 
 import java.util.Scanner;
 import java.util.function.Consumer;

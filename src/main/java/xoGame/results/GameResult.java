@@ -1,10 +1,12 @@
-package xoGame;
+package xoGame.results;
+
+import xoGame.ScoreBoard;
 
 public class GameResult {
 
     private ScoreBoard scoreBoard;
 
-    GameResult(ScoreBoard scoreBoard) {
+    public GameResult(ScoreBoard scoreBoard) {
         this.scoreBoard = scoreBoard;
     }
 

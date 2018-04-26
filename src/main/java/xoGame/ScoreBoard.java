@@ -1,5 +1,7 @@
 package xoGame;
 
+import xoGame.results.MatchResult;
+
 public class ScoreBoard {
 
     public boolean addPointsForPlayer(MatchResult matchResult) {

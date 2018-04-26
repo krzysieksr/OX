@@ -1,9 +1,10 @@
-package xoGame;
+package xoGame.results;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
+import xoGame.ScoreBoard;
+import xoGame.results.GameResult;
+import xoGame.results.Results;
 
 public class GameResultTest {
 

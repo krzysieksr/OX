@@ -1,4 +1,4 @@
-package xoGame;
+package xoGame.results;
 
 public enum Results {
     X,

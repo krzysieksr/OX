@@ -1,8 +1,11 @@
 package xoGame;
 
+import xoGame.gameStates.InitialState;
+import xoGame.xoGameExceptions.MyExceptionHandler;
+
 import java.util.Scanner;
 
-import static xoGame.GameStateDecorator.decorator;
+import static xoGame.gameStates.GameStateDecorator.decorator;
 
 public class Main {
 

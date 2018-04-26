@@ -1,4 +1,4 @@
-package xoGame;
+package xoGame.xoGameExceptions;
 
 public class MyExceptionHandler {
 

@@ -2,8 +2,7 @@ package xoGame;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
+import xoGame.results.MatchResult;
 
 public class ScoreBoardTest {
 

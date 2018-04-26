@@ -1,5 +1,7 @@
 package xoGame;
 
+import xoGame.gameStates.GameState;
+
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 

@@ -1,7 +1,15 @@
-package xoGame;
+package xoGame.gameStates;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import xoGame.Player;
+import xoGame.ScoreBoard;
+import xoGame.XOBoard;
+import xoGame.gameStates.EndOfTheGame;
+import xoGame.gameStates.GameInProgress;
+import xoGame.gameStates.GameState;
+import xoGame.gameStates.InitialState;
+import xoGame.results.VictoryChecker;
 
 import java.util.Random;
 

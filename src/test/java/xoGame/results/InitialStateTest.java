@@ -1,7 +1,7 @@
-package xoGame;
+package xoGame.results;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
+import xoGame.gameStates.InitialState;
 
 public class InitialStateTest {
 

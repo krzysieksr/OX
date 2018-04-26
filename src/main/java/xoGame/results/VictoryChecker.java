@@ -1,8 +1,11 @@
-package xoGame;
+package xoGame.results;
+
+import xoGame.XOBoard;
+import xoGame.results.MatchResult;
 
 import java.util.Optional;
 
-import static xoGame.MatchResult.*;
+import static xoGame.results.MatchResult.*;
 
 
 public class VictoryChecker {
