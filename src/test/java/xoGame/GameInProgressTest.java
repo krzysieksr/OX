@@ -3,21 +3,20 @@ package xoGame;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.Collections;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 public class GameInProgressTest {
 
     @Test
     public void testMoveToNextStateMethodAndStayInTheSameState() {
         //given
-        XOBoard xoBoard = new XOBoard();
+        XOBoard xoBoard = XOBoard.parse("3 3");
         VictoryChecker victoryChecker = new VictoryChecker();
+        ScoreBoard scoreBoard =new ScoreBoard();
         Player player = Player.X;
 
         String input = "1 2";
-        GameState gameInProgress = new GameInProgress(player, xoBoard, victoryChecker);
+        GameState gameInProgress = new GameInProgress(player, xoBoard, victoryChecker,scoreBoard);
 
         //when
         GameState gameState = gameInProgress.moveToNextState(input);
@@ -39,12 +38,13 @@ public class GameInProgressTest {
     @Test
     public void testMoveToNextStateMethodAndMoveToVictoryState() {
         //given
-        XOBoard xoBoard = new XOBoard();
+        XOBoard xoBoard = XOBoard.parse("3 3");
         VictoryChecker victoryChecker = new VictoryChecker();
         Player player = Player.X;
+        ScoreBoard scoreBoard=new ScoreBoard();
 
         // when
-        GameState gameInProgress = new GameInProgress(player, xoBoard, victoryChecker);
+        GameState gameInProgress = new GameInProgress(player, xoBoard, victoryChecker,scoreBoard);
         for (int i = 0; i <= 10; i++) {
             Random random = new Random();
             int x = random.nextInt();
@@ -55,6 +55,6 @@ public class GameInProgressTest {
         }
 
         // then
-        Assert.assertTrue(gameInProgress instanceof Victory);
+        Assert.assertTrue(gameInProgress instanceof EndOfTheGame);
     }
 }

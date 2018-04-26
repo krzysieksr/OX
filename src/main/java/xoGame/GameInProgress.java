@@ -2,16 +2,23 @@ package xoGame;
 
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class GameInProgress implements GameState {
     private Player currentPlayer;
-    private final XOBoard board;
+    private XOBoard board;
     private VictoryChecker victoryChecker;
+    private ScoreBoard scoreBoard;
+    int roundCounter;
+    private final int expectedRoundAmount = 3;
 
-    public GameInProgress(Player currentPlayer, XOBoard board, VictoryChecker victoryChecker) {
+    public GameInProgress(Player currentPlayer, XOBoard board,
+                          VictoryChecker victoryChecker, ScoreBoard scoreBoard) {
         this.currentPlayer = currentPlayer;
         this.board = board;
         this.victoryChecker = victoryChecker;
+        this.scoreBoard = scoreBoard;
+        this.roundCounter = 0;
     }
 
     @Override
@@ -23,10 +30,15 @@ public class GameInProgress implements GameState {
     @Override
     public GameState moveToNextState(String userInput) {
         board.applyMove(Coordinates.parse(userInput), currentPlayer);
-        Optional<Player> potentialWinner = victoryChecker.doWeHaveAWinner(board);
+        Optional<MatchResult> potentialWinner = victoryChecker.doWeHaveAWinner(board);
 
         if (potentialWinner.isPresent()) {
-            return new Victory(potentialWinner.get());
+            scoreBoard.addPointsForPlayer(potentialWinner.get());
+            roundCounter++;
+        }
+        if (roundCounter == expectedRoundAmount) {
+            GameResult gameResult = new GameResult(scoreBoard);
+            return new EndOfTheGame(gameResult);
         } else {
             currentPlayer = currentPlayer.getOppositePlayer();
             return this;

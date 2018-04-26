@@ -1,14 +1,15 @@
 package xoGame;
 import java.util.Optional;
 
-import static xoGame.Player.X;
+import static xoGame.MatchResult.*;
+//import static xoGame.Player.X;
 
 
 public class VictoryChecker {
 
     int counter =0;
 
-    public Optional<Player> doWeHaveAWinner(XOBoard board) {
+    public Optional<MatchResult> doWeHaveAWinner(XOBoard board) {
         //TODO
         if(++counter >10) return Optional.of(X);
         return Optional.empty();
