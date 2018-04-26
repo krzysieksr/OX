@@ -1,4 +1,4 @@
-package xoGame;
+package xoGame.gameStates;
 
 import java.util.function.Consumer;
 

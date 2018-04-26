@@ -1,23 +1,30 @@
-package xoGame;
+package xoGame.gameStates;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import xoGame.Player;
+import xoGame.ScoreBoard;
+import xoGame.XOBoard;
+import xoGame.gameStates.EndOfTheGame;
+import xoGame.gameStates.GameInProgress;
+import xoGame.gameStates.GameState;
+import xoGame.gameStates.InitialState;
+import xoGame.results.VictoryChecker;
 
-import java.util.Collections;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 public class GameInProgressTest {
 
     @Test
     public void testMoveToNextStateMethodAndStayInTheSameState() {
         //given
-        XOBoard xoBoard = new XOBoard();
+        XOBoard xoBoard = XOBoard.parse("3 3");
         VictoryChecker victoryChecker = new VictoryChecker();
+        ScoreBoard scoreBoard = new ScoreBoard();
         Player player = Player.X;
 
         String input = "1 2";
-        GameState gameInProgress = new GameInProgress(player, xoBoard, victoryChecker);
+        GameState gameInProgress = new GameInProgress(player, xoBoard, victoryChecker, scoreBoard);
 
         //when
         GameState gameState = gameInProgress.moveToNextState(input);
@@ -27,10 +34,10 @@ public class GameInProgressTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public static void testMoveToNextStateAndThrowIllegalArgumentException(){
+    public static void testMoveToNextStateAndThrowIllegalArgumentException() {
         //given
-        String input="some string";
-        GameState initialState=new InitialState();
+        String input = "some string";
+        GameState initialState = new InitialState();
 
         //when and then
         initialState.moveToNextState(input);
@@ -39,13 +46,14 @@ public class GameInProgressTest {
     @Test
     public void testMoveToNextStateMethodAndMoveToVictoryState() {
         //given
-        XOBoard xoBoard = new XOBoard();
+        XOBoard xoBoard = XOBoard.parse("3 3");
         VictoryChecker victoryChecker = new VictoryChecker();
         Player player = Player.X;
+        ScoreBoard scoreBoard = new ScoreBoard();
 
         // when
-        GameState gameInProgress = new GameInProgress(player, xoBoard, victoryChecker);
-        for (int i = 0; i <= 10; i++) {
+        GameState gameInProgress = new GameInProgress(player, xoBoard, victoryChecker, scoreBoard);
+        for (int i = 0; i <= 8; i++) {
             Random random = new Random();
             int x = random.nextInt();
             int y = random.nextInt();
@@ -55,6 +63,6 @@ public class GameInProgressTest {
         }
 
         // then
-        Assert.assertTrue(gameInProgress instanceof Victory);
+        Assert.assertTrue(gameInProgress instanceof EndOfTheGame);
     }
 }

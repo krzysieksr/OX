@@ -1,4 +1,4 @@
-package xoGame;
+package xoGame.gameStates;
 
 import java.util.function.Consumer;
 
@@ -7,7 +7,7 @@ public class GameStateDecorator implements GameState {
     private final Consumer<Exception> exceptionHandler;
     private GameState decorated;
 
-    static GameState decorator(GameState initialState, Consumer<Exception> exceptionHandler) {
+    public static GameState decorator(GameState initialState, Consumer<Exception> exceptionHandler) {
         return new GameStateDecorator(exceptionHandler, initialState);
     }
 
@@ -25,7 +25,7 @@ public class GameStateDecorator implements GameState {
     @Override
     public GameState moveToNextState(String userInput) {
         try {
-            decorated=decorated.moveToNextState(userInput);
+            decorated = decorated.moveToNextState(userInput);
         } catch (Exception e) {
             exceptionHandler.accept(e);
         }

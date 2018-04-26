@@ -1,5 +1,7 @@
 package xoGame;
 
+import xoGame.gameStates.GameState;
+
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -26,7 +28,7 @@ public class XOGame {
 
     private void doOneCycleOfTheGame() {
         this.currentState.printTo(output);
-        this.currentState=currentState.moveToNextState(userInputProvider.get());
+        this.currentState = currentState.moveToNextState(userInputProvider.get());
     }
 
 }
