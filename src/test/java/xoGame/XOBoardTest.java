@@ -8,16 +8,16 @@ public class XOBoardTest {
 
     @Test
     public void testApplyMoveForExistingFreeCell() {
+        //TODO
     }
 
-    @Test(expectedExceptions = IndexOutOfBoundsException.class)
+    //    @Test(expectedExceptions = IndexOutOfBoundsException.class)
     public void testApplyMoveForNotExistingCell() {
-//        XOBoard xoBoard=new XOBoard();
-//        Coordinates coordinates=new Coordinates()
-//        xoBoard.applyMove();
+        //TODO
     }
 
     @Test
     public void testApplyMoveForExistingBusyCell() {
+        //TODO
     }
 }

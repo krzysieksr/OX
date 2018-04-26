@@ -12,11 +12,11 @@ public class GameInProgressTest {
         //given
         XOBoard xoBoard = XOBoard.parse("3 3");
         VictoryChecker victoryChecker = new VictoryChecker();
-        ScoreBoard scoreBoard =new ScoreBoard();
+        ScoreBoard scoreBoard = new ScoreBoard();
         Player player = Player.X;
 
         String input = "1 2";
-        GameState gameInProgress = new GameInProgress(player, xoBoard, victoryChecker,scoreBoard);
+        GameState gameInProgress = new GameInProgress(player, xoBoard, victoryChecker, scoreBoard);
 
         //when
         GameState gameState = gameInProgress.moveToNextState(input);
@@ -26,10 +26,10 @@ public class GameInProgressTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public static void testMoveToNextStateAndThrowIllegalArgumentException(){
+    public static void testMoveToNextStateAndThrowIllegalArgumentException() {
         //given
-        String input="some string";
-        GameState initialState=new InitialState();
+        String input = "some string";
+        GameState initialState = new InitialState();
 
         //when and then
         initialState.moveToNextState(input);
@@ -41,11 +41,11 @@ public class GameInProgressTest {
         XOBoard xoBoard = XOBoard.parse("3 3");
         VictoryChecker victoryChecker = new VictoryChecker();
         Player player = Player.X;
-        ScoreBoard scoreBoard=new ScoreBoard();
+        ScoreBoard scoreBoard = new ScoreBoard();
 
         // when
-        GameState gameInProgress = new GameInProgress(player, xoBoard, victoryChecker,scoreBoard);
-        for (int i = 0; i <= 10; i++) {
+        GameState gameInProgress = new GameInProgress(player, xoBoard, victoryChecker, scoreBoard);
+        for (int i = 0; i <= 8; i++) {
             Random random = new Random();
             int x = random.nextInt();
             int y = random.nextInt();

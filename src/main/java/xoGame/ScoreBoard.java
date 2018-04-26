@@ -1,14 +1,12 @@
 package xoGame;
 
-import java.util.Optional;
-
 public class ScoreBoard {
 
-    public void addPointsForPlayer(MatchResult matchResult){
-
+    public boolean addPointsForPlayer(MatchResult matchResult) {
+        return true;
     }
 
-    public int getPlayerPoints(Player player){
+    public int getPlayerPoints(Player player) {
         return 0;
     }
 

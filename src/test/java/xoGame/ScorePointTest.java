@@ -6,7 +6,7 @@ public class ScorePointTest {
 
 
     @Test
-    public void testAddPointForPlayerInCaseOfVictory(){
+    public void testAddPointForPlayerInCaseOfVictory() {
         //given
 
         // when
@@ -17,7 +17,7 @@ public class ScorePointTest {
 
 
     @Test
-    public void testAddPointForPlayerInCaseOfDraw(){
+    public void testAddPointForPlayerInCaseOfDraw() {
         //given
 
         // when
@@ -27,7 +27,7 @@ public class ScorePointTest {
     }
 
     @Test
-    public static void testGetPlayerPoints(){
+    public static void testGetPlayerPoints() {
         //given
 
         // when

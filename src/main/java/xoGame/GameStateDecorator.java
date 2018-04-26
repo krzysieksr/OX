@@ -1,7 +1,6 @@
 package xoGame;
 
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class GameStateDecorator implements GameState {
 
@@ -26,7 +25,7 @@ public class GameStateDecorator implements GameState {
     @Override
     public GameState moveToNextState(String userInput) {
         try {
-            decorated=decorated.moveToNextState(userInput);
+            decorated = decorated.moveToNextState(userInput);
         } catch (Exception e) {
             exceptionHandler.accept(e);
         }
