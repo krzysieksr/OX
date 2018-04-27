@@ -22,7 +22,7 @@ public class XOBoard {
         }
     }
 
-    public static XOBoard parse(String dimensionsAsString) throws IllegalArgumentException {
+    public static XOBoard parse(String dimensionsAsString) {
         String[] parts = dimensionsAsString.split(" ");
         int x = Integer.parseInt(parts[0]);
         int y = Integer.parseInt(parts[1]);

@@ -28,7 +28,7 @@ public class XOGame {
 
     private void doOneCycleOfTheGame() {
         this.currentState.printTo(output);
-        this.currentState = currentState.moveToNextState(userInputProvider.get());
+        this.currentState = currentState.moveToNextState(userInputProvider);
     }
 
 }

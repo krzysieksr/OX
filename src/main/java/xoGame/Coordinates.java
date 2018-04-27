@@ -23,6 +23,9 @@ public class Coordinates {
         String[] parts = coordinatesAsString.split(" ");
         int x = Integer.parseInt(parts[0]);
         int y = Integer.parseInt(parts[1]);
+        if (x < 0 || y < 0) {
+            throw new IllegalArgumentException();
+        }
         return new Coordinates(x, y);
     }
 }

@@ -1,7 +1,8 @@
-package xoGame;
+package xoGame.results;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import xoGame.XOBoard;
 import xoGame.results.MatchResult;
 import xoGame.results.VictoryChecker;
 
@@ -11,7 +12,7 @@ public class VictoryCheckerTest {
 
     @Test
     public void testDoWeHaveAWinnerAndXWins() {
-        VictoryChecker victoryChecker = new VictoryChecker();
+        VictoryChecker victoryChecker = VictoryChecker.parse("4");
         XOBoard xoBoard = XOBoard.parse("1 4");
         Optional<MatchResult> potentialWinner = Optional.empty();
 
@@ -34,7 +35,7 @@ public class VictoryCheckerTest {
 
     @Test
     public void testDoWeHaveAWinnerMethodAndThereIsNoWinnerYet() {
-        VictoryChecker victoryChecker = new VictoryChecker();
+        VictoryChecker victoryChecker = VictoryChecker.parse("4");
         XOBoard xoBoard = XOBoard.parse("1 4");
 
         Optional<MatchResult> potentialWinner = victoryChecker.doWeHaveAWinner(xoBoard);
