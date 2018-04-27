@@ -10,6 +10,7 @@ public class XOBoard {
     private final int x;
     private final int y;
     private Map<Integer, Character> board;
+    private int recentTypedCoor;
 
     private XOBoard(int x, int y) {
         this.x = x;
@@ -39,6 +40,7 @@ public class XOBoard {
         if (board.containsKey(indexAtMap)) {
             throw new CellBusyException(aCoor, bCoor);
         }
+        recentTypedCoor = indexAtMap;
         board.put(indexAtMap, currentPlayer.name().charAt(0));
     }
 
@@ -88,5 +90,18 @@ public class XOBoard {
 
     public int getY() {
         return y;
+    }
+
+    public int getRecentTypedCoor() {
+        return recentTypedCoor;
+    }
+
+    public boolean isBoardFull() {
+        int maxBoardSize = x * y;
+        return board.size() == maxBoardSize;
+    }
+
+    public Character getCharAtIndex(int index) {
+        return board.get(index);
     }
 }

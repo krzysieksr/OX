@@ -2,7 +2,7 @@ package xoGame.results;
 
 public enum MatchResult {
     X(0),
-    Y(1),
+    O(1),
     DRAW(3);
 
     private int result;

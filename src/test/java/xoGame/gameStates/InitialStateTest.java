@@ -1,5 +1,6 @@
 package xoGame.gameStates;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
@@ -12,37 +13,22 @@ public class InitialStateTest {
 
     @Test
     public void testMoveToNextState() {
-        //TODO method has changed, cannot perform tests
         //given
         GameState gameState = new InitialState();
-
-        String input = "X\n2 3\n3";
+        String player = "X";
+        String boardDimension = "3 4";
+        String winningCondition = "3";
+        String input = player + "\n" + boardDimension + "\n" + winningCondition;
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
 
-        //when
         gameState.printTo(System.out::println);
         Supplier<String> userInputProvider = new Scanner(System.in)::nextLine;
 
+        //when
+        GameState resultGameState = gameState.moveToNextState(userInputProvider);
+
         //then
-        gameState.moveToNextState(userInputProvider);
-
-
+        Assert.assertEquals(resultGameState.getClass(), GameInProgress.class);
     }
-
-    //TODO
-//    @Test(expectedExceptions = IllegalArgumentException.class)
-//    public void testMoveToNextStateAndThrowIllegalArgumentException() {
-//        //given
-//        String input = "some string";
-//        InputStream in = new ByteArrayInputStream(input.getBytes());
-//        System.setIn(in);
-//
-//        InitialState initialState = new InitialState();
-//        initialState.printTo(System.out::println);
-//        Supplier<String> userInputProvider=new Scanner(System.in)::nextLine;
-//
-//        //when and then
-//        initialState.moveToNextState(userInputProvider);
-//    }
 }

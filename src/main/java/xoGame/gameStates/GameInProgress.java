@@ -19,11 +19,13 @@ public class GameInProgress implements GameState {
     private Consumer<String> output;
     private int roundCounter;
     private final int expectedRoundAmount = 3;
+    private final String boardDimensionsAsString;
 
     public GameInProgress(Player currentPlayer, XOBoard xoBoard,
                           VictoryChecker victoryChecker, ScoreBoard scoreBoard) {
         this.currentPlayer = currentPlayer;
         this.xoBoard = xoBoard;
+        boardDimensionsAsString = boardDimensionToString(xoBoard);
         this.victoryChecker = victoryChecker;
         this.scoreBoard = scoreBoard;
         this.roundCounter = 0;
@@ -44,6 +46,7 @@ public class GameInProgress implements GameState {
 
         if (potentialWinner.isPresent()) {
             scoreBoard.addPointsForPlayer(potentialWinner.get());
+            xoBoard = XOBoard.parse(boardDimensionsAsString);
             roundCounter++;
         }
 
@@ -64,8 +67,14 @@ public class GameInProgress implements GameState {
             output.accept("Wrong coordinates! Player " + currentPlayer + ", try again:");
             makeMove();
         } catch (CellBusyException e) {
-            output.accept("Cell " + e.toString() + "is already busy.");
+            output.accept("Cell " + e.toString() + " is already busy. Player " + currentPlayer + ", try again:");
             makeMove();
         }
+    }
+
+    private String boardDimensionToString(XOBoard xoBoard) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder = stringBuilder.append(xoBoard.getX()).append(" ").append(xoBoard.getY());
+        return stringBuilder.toString();
     }
 }
