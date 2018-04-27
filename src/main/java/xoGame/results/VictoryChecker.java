@@ -1,6 +1,7 @@
 package xoGame.results;
 
 import xoGame.XOBoard;
+import xoGame.xoGameExceptions.TooManyArgumentsException;
 
 import java.util.Optional;
 
@@ -26,8 +27,11 @@ public class VictoryChecker {
 
     }
 
-    public static VictoryChecker parse(String winningCondition) {
+    public static VictoryChecker parse(String winningCondition) throws TooManyArgumentsException {
         String[] parts = winningCondition.split(" ");
+        if (parts.length > 1) {
+            throw new TooManyArgumentsException(winningCondition);
+        }
         int victoryCondition = Integer.parseInt(parts[0]);
         if (victoryCondition <= 0) {
             throw new IllegalArgumentException();

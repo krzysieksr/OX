@@ -4,6 +4,7 @@ import xoGame.*;
 import xoGame.results.GameResult;
 import xoGame.results.MatchResult;
 import xoGame.results.VictoryChecker;
+import xoGame.xoGameExceptions.CellBusyException;
 
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -58,8 +59,12 @@ public class GameInProgress implements GameState {
     private void makeMove() {
         try {
             xoBoard.applyMove(Coordinates.parse(userInputProvider.get()), currentPlayer);
-        } catch (IllegalArgumentException e) {
-            output.accept("Wrong coordinates! Try again:");
+        } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
+            xoBoard.printTo(output);
+            output.accept("Wrong coordinates! Player " + currentPlayer + ", try again:");
+            makeMove();
+        } catch (CellBusyException e) {
+            output.accept("Cell " + e.toString() + "is already busy.");
             makeMove();
         }
     }

@@ -5,13 +5,14 @@ import org.testng.annotations.Test;
 import xoGame.XOBoard;
 import xoGame.results.MatchResult;
 import xoGame.results.VictoryChecker;
+import xoGame.xoGameExceptions.TooManyArgumentsException;
 
 import java.util.Optional;
 
 public class VictoryCheckerTest {
 
     @Test
-    public void testDoWeHaveAWinnerAndXWins() {
+    public void testDoWeHaveAWinnerAndXWins() throws TooManyArgumentsException {
         VictoryChecker victoryChecker = VictoryChecker.parse("4");
         XOBoard xoBoard = XOBoard.parse("1 4");
         Optional<MatchResult> potentialWinner = Optional.empty();
@@ -34,7 +35,7 @@ public class VictoryCheckerTest {
     }
 
     @Test
-    public void testDoWeHaveAWinnerMethodAndThereIsNoWinnerYet() {
+    public void testDoWeHaveAWinnerMethodAndThereIsNoWinnerYet() throws TooManyArgumentsException {
         VictoryChecker victoryChecker = VictoryChecker.parse("4");
         XOBoard xoBoard = XOBoard.parse("1 4");
 

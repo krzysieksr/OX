@@ -4,6 +4,7 @@ import xoGame.Player;
 import xoGame.ScoreBoard;
 import xoGame.results.VictoryChecker;
 import xoGame.XOBoard;
+import xoGame.xoGameExceptions.TooManyArgumentsException;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -24,7 +25,7 @@ public class InitialState implements GameState {
     @Override
     public GameState moveToNextState(Supplier<String> userInputProvider) {
         this.userInputProvider = userInputProvider;
-        Player startingPlayer = Player.valueOf(userInputProvider.get());
+        Player startingPlayer = selectPlayer();
         createXOBoard();
         createVictoryChecker();
         return new GameInProgress(
@@ -32,6 +33,17 @@ public class InitialState implements GameState {
                 xoBoard,
                 victoryChecker,
                 new ScoreBoard());
+    }
+
+    private Player selectPlayer() {
+        Player startingPlayer;
+        try {
+            startingPlayer = Player.valueOf(userInputProvider.get());
+        } catch (IllegalArgumentException e) {
+            output.accept("Wrong, type X or O:");
+            return selectPlayer();
+        }
+        return startingPlayer;
     }
 
     private void createXOBoard() {
@@ -50,6 +62,9 @@ public class InitialState implements GameState {
             victoryChecker = VictoryChecker.parse(userInputProvider.get());
         } catch (IllegalArgumentException e) {
             output.accept("Wrong winning conditions!");
+            createVictoryChecker();
+        } catch (TooManyArgumentsException e) {
+            output.accept("Too many arguments: " + e.getArguments());
             createVictoryChecker();
         }
     }

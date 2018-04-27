@@ -13,19 +13,36 @@ public class InitialStateTest {
     @Test
     public void testMoveToNextState() {
         //TODO method has changed, cannot perform tests
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testMoveToNextStateAndThrowIllegalArgumentException() {
         //given
-        String input = "some string";
+        GameState gameState = new InitialState();
+
+        String input = "X\n2 3\n3";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
 
-        InitialState initialState = new InitialState();
-        Supplier<String> userInputProvider=new Scanner(System.in)::nextLine;
+        //when
+        gameState.printTo(System.out::println);
+        Supplier<String> userInputProvider = new Scanner(System.in)::nextLine;
 
-        //when and then
-        initialState.moveToNextState(userInputProvider);
+        //then
+        gameState.moveToNextState(userInputProvider);
+
+
     }
+
+    //TODO
+//    @Test(expectedExceptions = IllegalArgumentException.class)
+//    public void testMoveToNextStateAndThrowIllegalArgumentException() {
+//        //given
+//        String input = "some string";
+//        InputStream in = new ByteArrayInputStream(input.getBytes());
+//        System.setIn(in);
+//
+//        InitialState initialState = new InitialState();
+//        initialState.printTo(System.out::println);
+//        Supplier<String> userInputProvider=new Scanner(System.in)::nextLine;
+//
+//        //when and then
+//        initialState.moveToNextState(userInputProvider);
+//    }
 }
