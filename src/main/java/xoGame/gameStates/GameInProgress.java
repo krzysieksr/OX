@@ -4,15 +4,19 @@ import xoGame.*;
 import xoGame.results.GameResult;
 import xoGame.results.MatchResult;
 import xoGame.results.VictoryChecker;
+import xoGame.xoGameExceptions.CellBusyException;
 
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class GameInProgress implements GameState {
     private Player currentPlayer;
     private XOBoard xoBoard;
     private VictoryChecker victoryChecker;
     private ScoreBoard scoreBoard;
+    private Supplier<String> userInputProvider;
+    private Consumer<String> output;
     private int roundCounter;
     private final int expectedRoundAmount = 3;
 
@@ -27,13 +31,15 @@ public class GameInProgress implements GameState {
 
     @Override
     public void printTo(Consumer<String> output) {
+        this.output = output;
         xoBoard.printTo(output);
         output.accept("Player " + currentPlayer + ", make your move:");
     }
 
     @Override
-    public GameState moveToNextState(String userInput) {
-        xoBoard.applyMove(Coordinates.parse(userInput), currentPlayer);
+    public GameState moveToNextState(Supplier<String> userInputProvider) {
+        this.userInputProvider = userInputProvider;
+        makeMove();
         Optional<MatchResult> potentialWinner = victoryChecker.doWeHaveAWinner(xoBoard);
 
         if (potentialWinner.isPresent()) {
@@ -47,6 +53,19 @@ public class GameInProgress implements GameState {
         } else {
             currentPlayer = currentPlayer.getOppositePlayer();
             return this;
+        }
+    }
+
+    private void makeMove() {
+        try {
+            xoBoard.applyMove(Coordinates.parse(userInputProvider.get()), currentPlayer);
+        } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
+            xoBoard.printTo(output);
+            output.accept("Wrong coordinates! Player " + currentPlayer + ", try again:");
+            makeMove();
+        } catch (CellBusyException e) {
+            output.accept("Cell " + e.toString() + "is already busy.");
+            makeMove();
         }
     }
 }

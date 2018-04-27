@@ -27,6 +27,28 @@ public class CoordinatesTest {
         Assert.assertEquals(3, coordinates.getY());
     }
 
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public static void testParseForNegativeInputX() {
+        String input = "-2 3";
+
+        Coordinates.parse(input);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public static void testParseForNegativeInputY() {
+        String input = "2 -3";
+
+        Coordinates.parse(input);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public static void testParseForNegativeInputXAndY() {
+        String input = "-2 -3";
+
+        Coordinates.parse(input);
+    }
+
     @Test
     public void testParseForTrueCoordinates() {
         String input = "2 3";

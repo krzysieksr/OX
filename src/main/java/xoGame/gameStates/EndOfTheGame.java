@@ -3,6 +3,7 @@ package xoGame.gameStates;
 import xoGame.results.GameResult;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class EndOfTheGame implements GameState {
     private GameResult gameResult;
@@ -17,7 +18,7 @@ public class EndOfTheGame implements GameState {
     }
 
     @Override
-    public GameState moveToNextState(String userInput) {
+    public GameState moveToNextState(Supplier<String> userInputProvider) {
         return new InitialState();
     }
 }
