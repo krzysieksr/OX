@@ -1,14 +1,17 @@
 package xoGame.results;
 
 public enum MatchResult {
-    X(0),
-    O(1),
-    DRAW(3);
+    X("Match won by X player."),
+    O("Match won by O player."),
+    DRAW("Draw in match.");
 
-    private int result;
+    private String message;
 
+    MatchResult(String message) {
+        this.message = message;
+    }
 
-    MatchResult(int result) {
-        this.result = result;
+    public String getMessage() {
+        return message;
     }
 }

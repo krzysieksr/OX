@@ -1,6 +1,6 @@
 package xoGame.results;
 
-public enum Results {
+enum Results {
     X,
     Y,
     DRAW

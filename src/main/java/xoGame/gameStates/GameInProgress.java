@@ -3,6 +3,7 @@ package xoGame.gameStates;
 import xoGame.*;
 import xoGame.results.GameResult;
 import xoGame.results.MatchResult;
+import xoGame.results.ScoreBoard;
 import xoGame.results.VictoryChecker;
 import xoGame.xoGameExceptions.CellBusyException;
 
@@ -17,7 +18,7 @@ public class GameInProgress implements GameState {
     private ScoreBoard scoreBoard;
     private Supplier<String> userInputProvider;
     private Consumer<String> output;
-    private int roundCounter;
+    private int matchCounter;
     private final int expectedRoundAmount = 3;
     private final String boardDimensionsAsString;
 
@@ -28,7 +29,7 @@ public class GameInProgress implements GameState {
         boardDimensionsAsString = boardDimensionToString(xoBoard);
         this.victoryChecker = victoryChecker;
         this.scoreBoard = scoreBoard;
-        this.roundCounter = 0;
+        this.matchCounter = 0;
     }
 
     @Override
@@ -42,15 +43,9 @@ public class GameInProgress implements GameState {
     public GameState moveToNextState(Supplier<String> userInputProvider) {
         this.userInputProvider = userInputProvider;
         makeMove();
-        Optional<MatchResult> potentialWinner = victoryChecker.doWeHaveAWinner(xoBoard);
+        checkTourResult();
 
-        if (potentialWinner.isPresent()) {
-            scoreBoard.addPointsForPlayer(potentialWinner.get());
-            xoBoard = XOBoard.parse(boardDimensionsAsString);
-            roundCounter++;
-        }
-
-        if (roundCounter == expectedRoundAmount) {
+        if (matchCounter == expectedRoundAmount) {
             GameResult gameResult = new GameResult(scoreBoard);
             return new EndOfTheGame(gameResult);
         } else {
@@ -61,7 +56,7 @@ public class GameInProgress implements GameState {
 
     private void makeMove() {
         try {
-            xoBoard.applyMove(Coordinates.parse(userInputProvider.get()), currentPlayer);
+            xoBoard.applyMove(Cell.parse(userInputProvider.get()), currentPlayer);
         } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
             xoBoard.printTo(output);
             output.accept("Wrong coordinates! Player " + currentPlayer + ", try again:");
@@ -76,5 +71,19 @@ public class GameInProgress implements GameState {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder = stringBuilder.append(xoBoard.getX()).append(" ").append(xoBoard.getY());
         return stringBuilder.toString();
+    }
+
+    private void checkTourResult() {
+        Optional<MatchResult> potentialWinner = victoryChecker.tourResult(xoBoard);
+        if (potentialWinner.isPresent()) {
+            MatchResult matchResult=potentialWinner.get();
+            scoreBoard.addPointsForPlayer(matchResult);
+            xoBoard = XOBoard.parse(boardDimensionsAsString);
+            output.accept(matchResult.getMessage());
+            matchCounter++;
+            if (matchCounter < expectedRoundAmount) {
+                output.accept("Match number " + (matchCounter + 1) + ":");
+            }
+        }
     }
 }

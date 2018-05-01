@@ -51,45 +51,45 @@ public class XOBoardTest {
         Assert.assertEquals(xoBoard.getY(), 4);
     }
 
-    @Test
-    public void testApplyMoveForExistingFreeCell() throws CellBusyException {
-        //given
-        String boardDimension = "3 4";
-        XOBoard xoBoard = XOBoard.parse(boardDimension);
-        Coordinates coordinates = new Coordinates(2, 3);
-        Player player = Player.X;
-
-        //when
-        xoBoard.applyMove(coordinates, player);
-
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testApplyMoveForNotExistingCell() throws CellBusyException {
-        //given
-        String boardDimension = "3 4";
-        XOBoard xoBoard = XOBoard.parse(boardDimension);
-        Coordinates coordinates = new Coordinates(7, 3);
-        Player player = Player.X;
-
-        //when
-        xoBoard.applyMove(coordinates, player);
-
-    }
-
-    @Test(expectedExceptions = CellBusyException.class)
-    public void testApplyMoveForExistingBusyCell() throws CellBusyException {
-        //given
-        String boardDimension = "3 4";
-        XOBoard xoBoard = XOBoard.parse(boardDimension);
-        Coordinates coordinates = new Coordinates(2, 4);
-        Player playerX = Player.X;
-        Player playerO = Player.O;
-
-
-        //when
-        xoBoard.applyMove(coordinates, playerX);
-        xoBoard.applyMove(coordinates, playerO);
-
-    }
+//    @Test
+//    public void testApplyMoveForExistingFreeCell() throws CellBusyException {
+//        //given
+//        String boardDimension = "3 4";
+//        XOBoard xoBoard = XOBoard.parse(boardDimension);
+//        Coordinates coordinates = new Coordinates(2, 3);
+//        Player player = Player.X;
+//
+//        //when
+//        xoBoard.applyMove(coordinates, player);
+//
+//    }
+//
+//    @Test(expectedExceptions = IllegalArgumentException.class)
+//    public void testApplyMoveForNotExistingCell() throws CellBusyException {
+//        //given
+//        String boardDimension = "3 4";
+//        XOBoard xoBoard = XOBoard.parse(boardDimension);
+//        Coordinates coordinates = new Coordinates(7, 3);
+//        Player player = Player.X;
+//
+//        //when
+//        xoBoard.applyMove(coordinates, player);
+//
+//    }
+//
+//    @Test(expectedExceptions = CellBusyException.class)
+//    public void testApplyMoveForExistingBusyCell() throws CellBusyException {
+//        //given
+//        String boardDimension = "3 4";
+//        XOBoard xoBoard = XOBoard.parse(boardDimension);
+//        Coordinates coordinates = new Coordinates(2, 4);
+//        Player playerX = Player.X;
+//        Player playerO = Player.O;
+//
+//
+//        //when
+//        xoBoard.applyMove(coordinates, playerX);
+//        xoBoard.applyMove(coordinates, playerO);
+//
+//    }
 }

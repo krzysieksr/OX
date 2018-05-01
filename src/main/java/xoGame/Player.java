@@ -11,7 +11,14 @@ public enum Player {
         public Player getOppositePlayer() {
             return X;
         }
+    }, EMPTY {
+        @Override
+        public Player getOppositePlayer() {
+            return EMPTY;
+        }
     };
 
     public abstract Player getOppositePlayer();
+
+
 }

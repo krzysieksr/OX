@@ -1,5 +1,6 @@
 package xoGame.results;
 
+import xoGame.Player;
 import xoGame.XOBoard;
 import xoGame.xoGameExceptions.TooManyArgumentsException;
 
@@ -10,65 +11,40 @@ import static xoGame.results.MatchResult.*;
 
 public class VictoryChecker {
 
-    private int counter = 0;
-    private int condition;
+    private int winCondition;
     private XOBoard xoBoard;
 
     private VictoryChecker(int victoryCondition) {
-        this.condition = victoryCondition;
+        this.winCondition = victoryCondition;
     }
 
-    public Optional<MatchResult> doWeHaveAWinner(XOBoard board) {
-//        //TODO
-//        if (++counter >= 3) {
-//            counter = 0;
-//            return Optional.of(X);
-//        }
-//        return Optional.empty();
+    public static VictoryChecker parse(String winningCondition, XOBoard xoBoard) throws TooManyArgumentsException {
+        String[] parts = winningCondition.split(" ");
+        if (parts.length > 1) {
+            throw new TooManyArgumentsException(winningCondition);
+        }
+        int victoryCondition = Integer.parseInt(parts[0]);
+        if (victoryCondition <= 0 || victoryCondition > xoBoard.getShorterDimension()) {
+            throw new IllegalArgumentException();
+        }
+        return new VictoryChecker(victoryCondition);
+    }
 
-        //TODO
+    public Optional<MatchResult> tourResult(XOBoard board) {
         this.xoBoard = board;
-        if (board.isBoardFull()) {
+        if (xoBoard.isBoardFull()) {
             return Optional.of(DRAW);
         }
-        int recentMove = board.getRecentTypedCoor();
-        if (checkVictory(recentMove, board.getCharAtIndex(recentMove))) {
-            if (board.getCharAtIndex(recentMove) == 'X') {
+        CheckWinner checkWinner = new CheckWinner(winCondition, xoBoard);
+        if (checkWinner.doWeHaveAWinner()) {
+            int recentMove = board.getRecentTypedIndex();
+
+            if (board.getCharAtIndex(recentMove).equals(Player.X)) {
                 return Optional.of(X);
             }
             return Optional.of(O);
         }
 
         return Optional.empty();
-
-    }
-
-    public static VictoryChecker parse(String winningCondition) throws TooManyArgumentsException {
-        String[] parts = winningCondition.split(" ");
-        if (parts.length > 1) {
-            throw new TooManyArgumentsException(winningCondition);
-        }
-        int victoryCondition = Integer.parseInt(parts[0]);
-        if (victoryCondition <= 0) {
-            throw new IllegalArgumentException();
-        }
-        return new VictoryChecker(victoryCondition);
-    }
-
-    public boolean checkVictory(int lastMove, Character character) {
-        int inRow = countInRow(lastMove, character);
-        return inRow == condition;
-    }
-
-    private int countInRow(int lastMove, Character character) {
-        return 1 + countLeft(lastMove, character) + countRight(lastMove, character);
-    }
-
-    private int countLeft(int lastMove, Character character) {
-        return xoBoard.getCharAtIndex(lastMove - 1) == (character) ? 1 + countLeft(lastMove - 1, character) : 0;
-    }
-
-    private int countRight(int lastMove, Character character) {
-        return xoBoard.getCharAtIndex(lastMove + 1) == (character) ? 1 + countRight(lastMove + 1, character) : 0;
     }
 }

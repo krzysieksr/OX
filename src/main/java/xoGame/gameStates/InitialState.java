@@ -1,7 +1,7 @@
 package xoGame.gameStates;
 
 import xoGame.Player;
-import xoGame.ScoreBoard;
+import xoGame.results.ScoreBoard;
 import xoGame.results.VictoryChecker;
 import xoGame.XOBoard;
 import xoGame.xoGameExceptions.TooManyArgumentsException;
@@ -28,6 +28,7 @@ public class InitialState implements GameState {
         Player startingPlayer = selectPlayer();
         createXOBoard();
         createVictoryChecker();
+        output.accept("Match number 1:");
         return new GameInProgress(
                 startingPlayer,
                 xoBoard,
@@ -38,7 +39,7 @@ public class InitialState implements GameState {
     private Player selectPlayer() {
         Player startingPlayer;
         try {
-            startingPlayer = Player.valueOf(userInputProvider.get());
+            startingPlayer = Player.valueOf(userInputProvider.get().toUpperCase());
         } catch (IllegalArgumentException e) {
             output.accept("Wrong, type X or O:");
             return selectPlayer();
@@ -50,7 +51,7 @@ public class InitialState implements GameState {
         try {
             output.accept("Give board dimensions:");
             xoBoard = XOBoard.parse(userInputProvider.get());
-        } catch (NumberFormatException | NegativeArraySizeException e) {
+        } catch (NumberFormatException | NegativeArraySizeException | ArrayIndexOutOfBoundsException e) {
             output.accept("Wrong board dimensions!");
             createXOBoard();
         }
@@ -59,7 +60,7 @@ public class InitialState implements GameState {
     private void createVictoryChecker() {
         try {
             output.accept("Give winning condition:");
-            victoryChecker = VictoryChecker.parse(userInputProvider.get());
+            victoryChecker = VictoryChecker.parse(userInputProvider.get(),xoBoard);
         } catch (IllegalArgumentException e) {
             output.accept("Wrong winning conditions!");
             createVictoryChecker();

@@ -3,17 +3,18 @@ package xoGame;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import xoGame.results.MatchResult;
+import xoGame.results.ScoreBoard;
 
 public class ScoreBoardTest {
 
-    @Test
-    public void testAddPointsForPlayer() {
-        ScoreBoard scoreBoard = new ScoreBoard();
-
-        boolean addingPointResult = scoreBoard.addPointsForPlayer(MatchResult.X);
-
-        Assert.assertEquals(addingPointResult, true);
-    }
+//    @Test
+//    public void testAddPointsForPlayer() {
+//        ScoreBoard scoreBoard = new ScoreBoard();
+//
+//        boolean addingPointResult = scoreBoard.addPointsForPlayer(MatchResult.X);
+//
+//        Assert.assertEquals(addingPointResult, true);
+//    }
 
     @Test
     public void testGetPlayerPoints() {
