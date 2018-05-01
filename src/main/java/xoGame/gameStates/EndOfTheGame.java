@@ -32,7 +32,7 @@ public class EndOfTheGame implements GameState {
     }
 
     private boolean shouldWeStartAgain() {
-        output.accept("Would you like to play again? (Y/N)?");
+        output.accept("Would you like to play again (Y/N)?");
         String yesOrNo = userInputProvider.get().toUpperCase();
         return yesOrNo.equals("Y") || (!yesOrNo.equals("N") && shouldWeStartAgain());
     }
