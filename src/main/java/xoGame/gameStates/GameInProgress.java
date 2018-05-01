@@ -1,9 +1,11 @@
 package xoGame.gameStates;
 
-import xoGame.*;
+import xoGame.components.Player;
+import xoGame.components.XOBoard;
+import xoGame.coordinates.Cell;
 import xoGame.results.GameResult;
 import xoGame.results.MatchResult;
-import xoGame.results.ScoreBoard;
+import xoGame.components.ScoreBoard;
 import xoGame.results.VictoryChecker;
 import xoGame.xoGameExceptions.CellBusyException;
 

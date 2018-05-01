@@ -1,13 +1,5 @@
 package xoGame.gameStates;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-import xoGame.results.ScoreBoard;
-import xoGame.results.GameResult;
-
-import java.util.Scanner;
-import java.util.function.Supplier;
-
 public class EndOfTheGameTest {
 
 //    @Test

@@ -1,18 +1,5 @@
 package xoGame.gameStates;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-import xoGame.Player;
-import xoGame.results.ScoreBoard;
-import xoGame.XOBoard;
-import xoGame.results.VictoryChecker;
-import xoGame.xoGameExceptions.TooManyArgumentsException;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.Scanner;
-import java.util.function.Supplier;
-
 public class GameInProgressTest {
 
 //    @Test

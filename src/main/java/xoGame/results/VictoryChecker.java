@@ -1,7 +1,7 @@
 package xoGame.results;
 
-import xoGame.Player;
-import xoGame.XOBoard;
+import xoGame.components.Player;
+import xoGame.components.XOBoard;
 import xoGame.xoGameExceptions.TooManyArgumentsException;
 
 import java.util.Optional;

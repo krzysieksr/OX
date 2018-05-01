@@ -1,3 +1,3 @@
-# Project XO #
+# Project XO
 
-## Well-known game tic-tac-toe. ##
+## Well-known game tic-tac-toe.

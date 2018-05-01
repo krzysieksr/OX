@@ -1,5 +1,7 @@
 package xoGame.results;
 
+import xoGame.components.ScoreBoard;
+
 public class GameResult {
 
     private ScoreBoard scoreBoard;

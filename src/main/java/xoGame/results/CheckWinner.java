@@ -1,8 +1,8 @@
 package xoGame.results;
 
-import xoGame.Coordinates;
-import xoGame.Player;
-import xoGame.XOBoard;
+import xoGame.coordinates.Coordinates;
+import xoGame.components.Player;
+import xoGame.components.XOBoard;
 
 public class CheckWinner {
     private int winCondition;

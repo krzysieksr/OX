@@ -1,11 +1,8 @@
-package xoGame;
+package xoGame.coordinates;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.Random;
-
-import static org.testng.Assert.*;
+import xoGame.coordinates.Coordinates;
 
 public class CoordinatesTest {
 

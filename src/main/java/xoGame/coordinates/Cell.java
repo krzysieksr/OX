@@ -1,4 +1,4 @@
-package xoGame;
+package xoGame.coordinates;
 
 public class Cell {
     private final int cellIndex;

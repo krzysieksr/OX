@@ -1,9 +1,9 @@
-package xoGame;
+package xoGame.components;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import xoGame.results.MatchResult;
-import xoGame.results.ScoreBoard;
+import xoGame.components.Player;
+import xoGame.components.ScoreBoard;
 
 public class ScoreBoardTest {
 

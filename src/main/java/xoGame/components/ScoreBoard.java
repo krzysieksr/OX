@@ -1,7 +1,7 @@
-package xoGame.results;
+package xoGame.components;
 
-import xoGame.Player;
 import xoGame.results.MatchResult;
+import xoGame.results.Results;
 
 import static xoGame.results.Results.*;
 

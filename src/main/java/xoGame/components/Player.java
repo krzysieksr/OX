@@ -1,4 +1,4 @@
-package xoGame;
+package xoGame.components;
 
 public enum Player {
     X {

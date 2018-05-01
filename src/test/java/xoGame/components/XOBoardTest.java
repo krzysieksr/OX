@@ -1,10 +1,8 @@
-package xoGame;
+package xoGame.components;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import xoGame.xoGameExceptions.CellBusyException;
-
-import static org.testng.Assert.*;
+import xoGame.components.XOBoard;
 
 public class XOBoardTest {
 

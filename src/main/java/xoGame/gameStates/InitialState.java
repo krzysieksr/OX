@@ -1,9 +1,9 @@
 package xoGame.gameStates;
 
-import xoGame.Player;
-import xoGame.results.ScoreBoard;
+import xoGame.components.Player;
+import xoGame.components.ScoreBoard;
 import xoGame.results.VictoryChecker;
-import xoGame.XOBoard;
+import xoGame.components.XOBoard;
 import xoGame.xoGameExceptions.TooManyArgumentsException;
 
 import java.util.function.Consumer;

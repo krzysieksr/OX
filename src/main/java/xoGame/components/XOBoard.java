@@ -1,5 +1,7 @@
-package xoGame;
+package xoGame.components;
 
+import xoGame.coordinates.Cell;
+import xoGame.coordinates.Coordinates;
 import xoGame.xoGameExceptions.CellBusyException;
 
 import java.util.HashMap;
