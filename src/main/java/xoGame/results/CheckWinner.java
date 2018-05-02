@@ -53,7 +53,7 @@ public class CheckWinner {
             Coordinates coords = new Coordinates(curRow, curCol);
             if (!areCoordsInRange(coords))
                 break;
-            if (xoBoard.getCharAtCoor(new Coordinates(curRow, curCol)) == recentChar)
+            if (xoBoard.getCharAtCoor(new Coordinates(curRow, curCol)).equals(recentChar))
                 currentWinning++;
             else
                 break;
@@ -65,7 +65,7 @@ public class CheckWinner {
 
 
     private boolean areCoordsInRange(Coordinates coords) {
-        return coords.getY() >= 0 && coords.getY() < getMaxRow() && coords.getX() >= 0 && coords.getX() < getMaxCol();
+        return coords.getY() >= 1 && coords.getY() <= getMaxRow() && coords.getX() >= 1 && coords.getX() <= getMaxCol();
     }
 
     private int getMaxCol() {

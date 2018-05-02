@@ -77,7 +77,8 @@ public class XOBoard {
     }
 
     public Coordinates getCoordinates(int index) {
-        int xCoor = index % x;
+        --index;
+        int xCoor = index % x + 1;
         int yCoor = index / x + 1;
         return new Coordinates(xCoor, yCoor);
     }
@@ -123,7 +124,7 @@ public class XOBoard {
     }
 
     public Player getCharAtCoor(Coordinates coordinates) {
-        int indexAtMap = getIndexAtMap(coordinates.getX(), coordinates.getY());
+        int indexAtMap = getIndexAtMap( coordinates.getY(),coordinates.getX());
         return getCharAtIndex(indexAtMap);
     }
 
