@@ -2,7 +2,6 @@ package xoGame.coordinates;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import xoGame.coordinates.Coordinates;
 
 public class CoordinatesTest {
 

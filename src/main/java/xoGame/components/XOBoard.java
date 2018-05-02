@@ -33,7 +33,6 @@ public class XOBoard {
     }
 
     public void applyMove(Cell cell, Player currentPlayer) throws CellBusyException {
-        //TODO
         int inputIndex = cell.getCellIndex();
         if (inputIndex > boardRange) {
             throw new IllegalArgumentException();
@@ -124,11 +123,11 @@ public class XOBoard {
     }
 
     public Player getCharAtCoor(Coordinates coordinates) {
-        int indexAtMap = getIndexAtMap( coordinates.getY(),coordinates.getX());
+        int indexAtMap = getIndexAtMap(coordinates.getX(), coordinates.getY());
         return getCharAtIndex(indexAtMap);
     }
 
     public int getShorterDimension() {
-        return x >= y ? x : y;
+        return x >= y ? y : x;
     }
 }

@@ -11,8 +11,4 @@ public class CellBusyException extends Exception {
         return cellIndex;
     }
 
-    @Override
-    public String toString() {
-        return "[" + cellIndex + "]";
-    }
 }

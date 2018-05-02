@@ -64,7 +64,7 @@ public class GameInProgress implements GameState {
             output.accept("Wrong coordinates! Player " + currentPlayer + ", try again:");
             makeMove();
         } catch (CellBusyException e) {
-            output.accept("Cell " + e.toString() + " is already busy. Player " + currentPlayer + ", try again:");
+            output.accept("Cell [" + e.getCellIndex() + "] is already busy. Player " + currentPlayer + ", try again:");
             makeMove();
         }
     }

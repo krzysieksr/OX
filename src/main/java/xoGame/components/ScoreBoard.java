@@ -13,13 +13,15 @@ public class ScoreBoard {
         switch (matchResult) {
             case X:
                 xPoints += 3;
+                break;
             case O:
                 oPoints += 3;
+                break;
             case DRAW:
                 xPoints += 1;
                 oPoints += 1;
+                break;
         }
-
     }
 
     public int getPlayerPoints(Player player) {

@@ -33,10 +33,9 @@ public class CheckWinner {
         while (true) {
             curRow += rowInc;
             curCol += colInc;
-            Coordinates coords = new Coordinates(curRow, curCol);
+            Coordinates coords = new Coordinates(curCol, curRow);
             if (!areCoordsInRange(coords))
                 break;
-
             if (xoBoard.getCharAtCoor(coords).equals(recentChar))
                 currentWinning++;
             else
@@ -50,10 +49,10 @@ public class CheckWinner {
         while (true) {
             curRow -= rowInc;
             curCol -= colInc;
-            Coordinates coords = new Coordinates(curRow, curCol);
+            Coordinates coords = new Coordinates(curCol, curRow);
             if (!areCoordsInRange(coords))
                 break;
-            if (xoBoard.getCharAtCoor(new Coordinates(curRow, curCol)).equals(recentChar))
+            if (xoBoard.getCharAtCoor(coords).equals(recentChar))
                 currentWinning++;
             else
                 break;
