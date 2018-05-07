@@ -20,8 +20,8 @@ public class GameResult {
         switch (getResult()) {
             case X:
                 return "Player X has won the game!";
-            case Y:
-                return "Player X has won the game!";
+            case O:
+                return "Player O has won the game!";
             case DRAW:
                 return "Draw in the game";
             default:

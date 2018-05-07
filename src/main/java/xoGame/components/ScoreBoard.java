@@ -29,6 +29,6 @@ public class ScoreBoard {
     }
 
     public Results getCurrentGameResult() {
-        return xPoints > oPoints ? X : xPoints < oPoints ? Y : DRAW;
+        return xPoints > oPoints ? X : xPoints < oPoints ? O : DRAW;
     }
 }
