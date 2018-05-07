@@ -1,7 +1,8 @@
-package xoGame;
+package xoGame.components;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import xoGame.components.Player;
 
 public class PlayerTest {
 

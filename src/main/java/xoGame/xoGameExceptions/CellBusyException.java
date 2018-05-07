@@ -1,24 +1,14 @@
 package xoGame.xoGameExceptions;
 
 public class CellBusyException extends Exception {
-    int aCoor;
-    int bCoor;
+    int cellIndex;
 
-    public CellBusyException(int aCoor, int bCoor) {
-        this.aCoor = aCoor;
-        this.bCoor = bCoor;
+    public CellBusyException(int cellIndex) {
+        this.cellIndex = cellIndex;
     }
 
-    public int getaCoor() {
-        return aCoor;
+    public int getCellIndex() {
+        return cellIndex;
     }
 
-    public int getbCoor() {
-        return bCoor;
-    }
-
-    @Override
-    public String toString() {
-        return "[" + aCoor + " " + bCoor + "]";
-    }
 }

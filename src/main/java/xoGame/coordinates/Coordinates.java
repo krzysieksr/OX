@@ -1,4 +1,4 @@
-package xoGame;
+package xoGame.coordinates;
 
 public class Coordinates {
     private final int x;

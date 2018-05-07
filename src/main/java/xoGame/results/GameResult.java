@@ -1,6 +1,6 @@
 package xoGame.results;
 
-import xoGame.ScoreBoard;
+import xoGame.components.ScoreBoard;
 
 public class GameResult {
 
@@ -11,7 +11,7 @@ public class GameResult {
     }
 
     public Results getResult() {
-        return Results.X;
+        return scoreBoard.getCurrentGameResult();
     }
 
 
@@ -19,13 +19,13 @@ public class GameResult {
     public String toString() {
         switch (getResult()) {
             case X:
-                return "Player 'X' wins";
+                return "Player X has won the game!";
             case Y:
-                return "YYYYYY wins";
+                return "Player X has won the game!";
             case DRAW:
-                return "Fucking draw";
+                return "Draw in the game";
             default:
-                return "bleee";
+                return "Something went wrong";
         }
     }
 }

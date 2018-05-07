@@ -1,8 +1,11 @@
 package xoGame.gameStates;
 
-import xoGame.*;
+import xoGame.components.Player;
+import xoGame.components.XOBoard;
+import xoGame.coordinates.Cell;
 import xoGame.results.GameResult;
 import xoGame.results.MatchResult;
+import xoGame.components.ScoreBoard;
 import xoGame.results.VictoryChecker;
 import xoGame.xoGameExceptions.CellBusyException;
 
@@ -17,37 +20,34 @@ public class GameInProgress implements GameState {
     private ScoreBoard scoreBoard;
     private Supplier<String> userInputProvider;
     private Consumer<String> output;
-    private int roundCounter;
+    private int matchCounter;
     private final int expectedRoundAmount = 3;
+    private final String boardDimensionsAsString;
 
     public GameInProgress(Player currentPlayer, XOBoard xoBoard,
                           VictoryChecker victoryChecker, ScoreBoard scoreBoard) {
         this.currentPlayer = currentPlayer;
         this.xoBoard = xoBoard;
+        boardDimensionsAsString = boardDimensionToString(xoBoard);
         this.victoryChecker = victoryChecker;
         this.scoreBoard = scoreBoard;
-        this.roundCounter = 0;
+        this.matchCounter = 0;
     }
 
     @Override
     public void printTo(Consumer<String> output) {
         this.output = output;
         xoBoard.printTo(output);
-        output.accept("Player " + currentPlayer + ", make your move:");
+        output.accept("Player " + currentPlayer.getPlayerName() + ", make your move:");
     }
 
     @Override
     public GameState moveToNextState(Supplier<String> userInputProvider) {
         this.userInputProvider = userInputProvider;
         makeMove();
-        Optional<MatchResult> potentialWinner = victoryChecker.doWeHaveAWinner(xoBoard);
+        checkTourResult();
 
-        if (potentialWinner.isPresent()) {
-            scoreBoard.addPointsForPlayer(potentialWinner.get());
-            roundCounter++;
-        }
-
-        if (roundCounter == expectedRoundAmount) {
+        if (matchCounter == expectedRoundAmount) {
             GameResult gameResult = new GameResult(scoreBoard);
             return new EndOfTheGame(gameResult);
         } else {
@@ -58,14 +58,35 @@ public class GameInProgress implements GameState {
 
     private void makeMove() {
         try {
-            xoBoard.applyMove(Coordinates.parse(userInputProvider.get()), currentPlayer);
+            xoBoard.applyMove(Cell.parse(userInputProvider.get()), currentPlayer);
         } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
             xoBoard.printTo(output);
-            output.accept("Wrong coordinates! Player " + currentPlayer + ", try again:");
+            output.accept("Wrong coordinates! Player " + currentPlayer.getPlayerName() + ", try again:");
             makeMove();
         } catch (CellBusyException e) {
-            output.accept("Cell " + e.toString() + "is already busy.");
+            output.accept("Cell [" + e.getCellIndex() + "] is already busy. Player " + currentPlayer + ", try again:");
             makeMove();
+        }
+    }
+
+    private String boardDimensionToString(XOBoard xoBoard) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder = stringBuilder.append(xoBoard.getX()).append(" ").append(xoBoard.getY());
+        return stringBuilder.toString();
+    }
+
+    private void checkTourResult() {
+        Optional<MatchResult> potentialWinner = victoryChecker.tourResult(xoBoard);
+        if (potentialWinner.isPresent()) {
+            MatchResult matchResult = potentialWinner.get();
+            scoreBoard.addPointsForPlayer(matchResult);
+            xoBoard = XOBoard.parse(boardDimensionsAsString);
+            output.accept(matchResult.getMessage());
+            output.accept("X: " + String.valueOf(scoreBoard.getPlayerPoints(Player.X)) + " O: " + String.valueOf(scoreBoard.getPlayerPoints(Player.O)));
+            matchCounter++;
+            if (matchCounter < expectedRoundAmount) {
+                output.accept("Match number " + (matchCounter + 1) + ":");
+            }
         }
     }
 }

@@ -1,11 +1,14 @@
 package xoGame.gameStates;
 
-import xoGame.Player;
-import xoGame.ScoreBoard;
+import xoGame.GameLanguage;
+import xoGame.components.Player;
+import xoGame.components.PlayerParser;
+import xoGame.components.ScoreBoard;
 import xoGame.results.VictoryChecker;
-import xoGame.XOBoard;
+import xoGame.components.XOBoard;
 import xoGame.xoGameExceptions.TooManyArgumentsException;
 
+import java.util.Properties;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -14,20 +17,25 @@ public class InitialState implements GameState {
     private Supplier<String> userInputProvider;
     private XOBoard xoBoard;
     private VictoryChecker victoryChecker;
+    private Player startingPlayer;
+    private Properties language;
+
+    private final static String DEFAULT_X_PLAYER_NAME = "X";
+    private final static String DEFAULT_O_PLAYER_NAME = "O";
 
     @Override
     public void printTo(Consumer<String> output) {
         this.output = output;
-        output.accept("Welcome to XO game, who shall start (X or O) ?");
+        output.accept("Welcome to XO game:)");
     }
 
 
     @Override
     public GameState moveToNextState(Supplier<String> userInputProvider) {
         this.userInputProvider = userInputProvider;
-        Player startingPlayer = selectPlayer();
-        createXOBoard();
-        createVictoryChecker();
+        initializeGame();
+
+        output.accept("Match number 1:");
         return new GameInProgress(
                 startingPlayer,
                 xoBoard,
@@ -35,36 +43,71 @@ public class InitialState implements GameState {
                 new ScoreBoard());
     }
 
-    private Player selectPlayer() {
-        Player startingPlayer;
-        try {
-            startingPlayer = Player.valueOf(userInputProvider.get());
-        } catch (IllegalArgumentException e) {
-            output.accept("Wrong, type X or O:");
-            return selectPlayer();
+
+    private void initializeGame() {
+        if (changeDefaultSettings()) {
+            changeLanguage();
+            createXOBoard();
+            createVictoryChecker();
+            selectPlayer();
+        } else {
+            language = new GameLanguage(output).getGameLang("en");
+            startingPlayer = Player.X;
+            startingPlayer.setPlayerName(DEFAULT_X_PLAYER_NAME);
+            startingPlayer.getOppositePlayer().setPlayerName(DEFAULT_O_PLAYER_NAME);
+            xoBoard = XOBoard.parse("3 3");
+            try {
+                victoryChecker = VictoryChecker.parse("3", xoBoard);
+            } catch (TooManyArgumentsException e) {
+                output.accept("Too many arguments: " + e.getArguments());
+            }
         }
-        return startingPlayer;
+
+    }
+
+    private void changeLanguage() {
+        GameLanguage gameLanguage = new GameLanguage(output);
+        try {
+            output.accept("Chose language (en, pl):");
+            language = gameLanguage.getGameLang(userInputProvider.get());
+        } catch (IllegalArgumentException e) {
+            output.accept("Chosen language doesn't exist.");
+
+            changeLanguage();
+        }
+    }
+
+    private boolean changeDefaultSettings() {
+        output.accept("Would you like to change game default settings (Y/N)?");
+        String yesOrNo = userInputProvider.get().toUpperCase();
+        return yesOrNo.equals("Y") || (!yesOrNo.equals("N") && changeDefaultSettings());
+    }
+
+
+    private void selectPlayer() {
+        PlayerParser playerParser = new PlayerParser(userInputProvider, output, language);
+        startingPlayer = playerParser.parse();
     }
 
     private void createXOBoard() {
         try {
-            output.accept("Give board dimensions:");
+            output.accept(language.getProperty("demandBoardDimension", "Give board dimensions:"));
             xoBoard = XOBoard.parse(userInputProvider.get());
-        } catch (NumberFormatException | NegativeArraySizeException e) {
-            output.accept("Wrong board dimensions!");
+        } catch (NumberFormatException | NegativeArraySizeException | ArrayIndexOutOfBoundsException e) {
+            output.accept(language.getProperty("wrongBoardDimension", "Wrong board dimensions!"));
             createXOBoard();
         }
     }
 
     private void createVictoryChecker() {
         try {
-            output.accept("Give winning condition:");
-            victoryChecker = VictoryChecker.parse(userInputProvider.get());
+            output.accept(language.getProperty("demandWinCond", "Give winning condition:"));
+            victoryChecker = VictoryChecker.parse(userInputProvider.get(), xoBoard);
         } catch (IllegalArgumentException e) {
-            output.accept("Wrong winning conditions!");
+            output.accept(language.getProperty("wringWinningCond", "Wrong winning conditions!"));
             createVictoryChecker();
         } catch (TooManyArgumentsException e) {
-            output.accept("Too many arguments: " + e.getArguments());
+            output.accept(language.getProperty("tooManyArguments", "Too many arguments: ") + e.getArguments());
             createVictoryChecker();
         }
     }
