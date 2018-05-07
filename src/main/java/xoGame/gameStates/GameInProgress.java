@@ -38,7 +38,7 @@ public class GameInProgress implements GameState {
     public void printTo(Consumer<String> output) {
         this.output = output;
         xoBoard.printTo(output);
-        output.accept("Player " + currentPlayer + ", make your move:");
+        output.accept("Player " + currentPlayer.getPlayerName() + ", make your move:");
     }
 
     @Override
@@ -61,7 +61,7 @@ public class GameInProgress implements GameState {
             xoBoard.applyMove(Cell.parse(userInputProvider.get()), currentPlayer);
         } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
             xoBoard.printTo(output);
-            output.accept("Wrong coordinates! Player " + currentPlayer + ", try again:");
+            output.accept("Wrong coordinates! Player " + currentPlayer.getPlayerName() + ", try again:");
             makeMove();
         } catch (CellBusyException e) {
             output.accept("Cell [" + e.getCellIndex() + "] is already busy. Player " + currentPlayer + ", try again:");
@@ -78,10 +78,11 @@ public class GameInProgress implements GameState {
     private void checkTourResult() {
         Optional<MatchResult> potentialWinner = victoryChecker.tourResult(xoBoard);
         if (potentialWinner.isPresent()) {
-            MatchResult matchResult=potentialWinner.get();
+            MatchResult matchResult = potentialWinner.get();
             scoreBoard.addPointsForPlayer(matchResult);
             xoBoard = XOBoard.parse(boardDimensionsAsString);
             output.accept(matchResult.getMessage());
+            output.accept("X: " + String.valueOf(scoreBoard.getPlayerPoints(Player.X)) + " O: " + String.valueOf(scoreBoard.getPlayerPoints(Player.O)));
             matchCounter++;
             if (matchCounter < expectedRoundAmount) {
                 output.accept("Match number " + (matchCounter + 1) + ":");

@@ -32,9 +32,6 @@ public class VictoryChecker {
 
     public Optional<MatchResult> tourResult(XOBoard board) {
         this.xoBoard = board;
-        if (xoBoard.isBoardFull()) {
-            return Optional.of(DRAW);
-        }
         CheckWinner checkWinner = new CheckWinner(winCondition, xoBoard);
         if (checkWinner.doWeHaveAWinner()) {
             int recentMove = board.getRecentTypedIndex();
@@ -43,6 +40,9 @@ public class VictoryChecker {
                 return Optional.of(X);
             }
             return Optional.of(O);
+        }
+        if (xoBoard.isBoardFull()) {
+            return Optional.of(DRAW);
         }
 
         return Optional.empty();

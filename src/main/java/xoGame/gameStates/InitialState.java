@@ -2,6 +2,7 @@ package xoGame.gameStates;
 
 import xoGame.GameLanguage;
 import xoGame.components.Player;
+import xoGame.components.PlayerParser;
 import xoGame.components.ScoreBoard;
 import xoGame.results.VictoryChecker;
 import xoGame.components.XOBoard;
@@ -18,6 +19,9 @@ public class InitialState implements GameState {
     private VictoryChecker victoryChecker;
     private Player startingPlayer;
     private Properties language;
+
+    private final static String DEFAULT_X_PLAYER_NAME = "X";
+    private final static String DEFAULT_O_PLAYER_NAME = "O";
 
     @Override
     public void printTo(Consumer<String> output) {
@@ -43,12 +47,14 @@ public class InitialState implements GameState {
     private void initializeGame() {
         if (changeDefaultSettings()) {
             changeLanguage();
-            startingPlayer = selectPlayer();
             createXOBoard();
             createVictoryChecker();
+            selectPlayer();
         } else {
             language = new GameLanguage(output).getGameLang("en");
             startingPlayer = Player.X;
+            startingPlayer.setPlayerName(DEFAULT_X_PLAYER_NAME);
+            startingPlayer.getOppositePlayer().setPlayerName(DEFAULT_O_PLAYER_NAME);
             xoBoard = XOBoard.parse("3 3");
             try {
                 victoryChecker = VictoryChecker.parse("3", xoBoard);
@@ -78,16 +84,9 @@ public class InitialState implements GameState {
     }
 
 
-    private Player selectPlayer() {
-        Player startingPlayer;
-        try {
-            output.accept(language.getProperty("whoStarts", "Who shall start (X or O) ?"));
-            startingPlayer = Player.valueOf(userInputProvider.get().toUpperCase());
-        } catch (IllegalArgumentException e) {
-            output.accept("Wrong, type X or O.");
-            return selectPlayer();
-        }
-        return startingPlayer;
+    private void selectPlayer() {
+        PlayerParser playerParser = new PlayerParser(userInputProvider, output, language);
+        startingPlayer = playerParser.parse();
     }
 
     private void createXOBoard() {
