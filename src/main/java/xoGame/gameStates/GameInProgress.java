@@ -1,5 +1,6 @@
 package xoGame.gameStates;
 
+import xoGame.WhoStartedRecently;
 import xoGame.components.Player;
 import xoGame.components.XOBoard;
 import xoGame.coordinates.Cell;
@@ -23,6 +24,7 @@ public class GameInProgress implements GameState {
     private int matchCounter;
     private final int expectedRoundAmount = 3;
     private final String boardDimensionsAsString;
+    WhoStartedRecently whoStartedRecently;
 
     public GameInProgress(Player currentPlayer, XOBoard xoBoard,
                           VictoryChecker victoryChecker, ScoreBoard scoreBoard) {
@@ -32,6 +34,7 @@ public class GameInProgress implements GameState {
         this.victoryChecker = victoryChecker;
         this.scoreBoard = scoreBoard;
         this.matchCounter = 0;
+        whoStartedRecently = new WhoStartedRecently(currentPlayer);
     }
 
     @Override
@@ -83,6 +86,7 @@ public class GameInProgress implements GameState {
             xoBoard = XOBoard.parse(boardDimensionsAsString);
             output.accept(matchResult.getMessage());
             output.accept("X: " + String.valueOf(scoreBoard.getPlayerPoints(Player.X)) + " O: " + String.valueOf(scoreBoard.getPlayerPoints(Player.O)));
+            currentPlayer = whoStartedRecently.getWhoStartedRecently(currentPlayer);
             matchCounter++;
             if (matchCounter < expectedRoundAmount) {
                 output.accept("Match number " + (matchCounter + 1) + ":");
