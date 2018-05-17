@@ -8,11 +8,12 @@ import xoGame.results.MatchResult;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.function.Supplier;
 
 public class EndOfTheGameTest {
-    
+
     @Test()
     public void testMoveToNextStateAndMoveToInitialState() {
         String input = "Y";
@@ -23,9 +24,9 @@ public class EndOfTheGameTest {
         ScoreBoard scoreBoard = new ScoreBoard();
         scoreBoard.addPointsForPlayer(MatchResult.X);
 
-        GameResult gameResult = new GameResult(scoreBoard);
+        GameResult gameResult = new GameResult(scoreBoard, new Properties());
 
-        GameState gameState = new EndOfTheGame(gameResult);
+        GameState gameState = new EndOfTheGame(gameResult, new Properties());
         gameState.printTo(System.out::println);
 
 

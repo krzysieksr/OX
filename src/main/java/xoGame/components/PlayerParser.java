@@ -18,9 +18,9 @@ public class PlayerParser {
     }
 
     public Player parse() {
-        output.accept("Select player name for X sign:");
+        output.accept(language.getProperty("selectNameForX","Select player name for X sign:"));
         player.setPlayerName(userInputProvider.get());
-        output.accept("Select player name for O sign:");
+        output.accept(language.getProperty("selectNameForO","Select player name for O sign:"));
         player.getOppositePlayer().setPlayerName(userInputProvider.get());
         parseWhoStarts();
         return player;
@@ -31,7 +31,7 @@ public class PlayerParser {
             output.accept(language.getProperty("whoStarts", "Who shall start (X or O) ?"));
             player = Player.valueOf(userInputProvider.get().toUpperCase());
         } catch (IllegalArgumentException e) {
-            output.accept("Wrong, type X or O.");
+            output.accept(language.getProperty("wrongTypeXorO","Wrong, type X or O."));
             parseWhoStarts();
         }
     }

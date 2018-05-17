@@ -11,6 +11,7 @@ import xoGame.results.VictoryChecker;
 import xoGame.xoGameExceptions.CellBusyException;
 
 import java.util.Optional;
+import java.util.Properties;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -19,29 +20,35 @@ public class GameInProgress implements GameState {
     private XOBoard xoBoard;
     private VictoryChecker victoryChecker;
     private ScoreBoard scoreBoard;
+    private final Properties language;
+
     private Supplier<String> userInputProvider;
     private Consumer<String> output;
+
     private int matchCounter;
     private final int expectedRoundAmount = 3;
     private final String boardDimensionsAsString;
-    WhoStartedRecently whoStartedRecently;
+    private WhoStartedRecently whoStartedRecently;
 
     public GameInProgress(Player currentPlayer, XOBoard xoBoard,
-                          VictoryChecker victoryChecker, ScoreBoard scoreBoard) {
+                          VictoryChecker victoryChecker, ScoreBoard scoreBoard, Properties language) {
         this.currentPlayer = currentPlayer;
         this.xoBoard = xoBoard;
         boardDimensionsAsString = boardDimensionToString(xoBoard);
         this.victoryChecker = victoryChecker;
         this.scoreBoard = scoreBoard;
+        this.language = language;
         this.matchCounter = 0;
-        whoStartedRecently = new WhoStartedRecently(currentPlayer);
+        this.whoStartedRecently = new WhoStartedRecently(currentPlayer);
+
     }
 
     @Override
     public void printTo(Consumer<String> output) {
         this.output = output;
         xoBoard.printTo(output);
-        output.accept("Player " + currentPlayer.getPlayerName() + ", make your move:");
+        output.accept(language.getProperty("player", "Player ") + currentPlayer.getPlayerName() +
+                language.getProperty("makeYourMove", ", make your move:"));
     }
 
     @Override
@@ -51,8 +58,8 @@ public class GameInProgress implements GameState {
         checkTourResult();
 
         if (matchCounter == expectedRoundAmount) {
-            GameResult gameResult = new GameResult(scoreBoard);
-            return new EndOfTheGame(gameResult);
+            GameResult gameResult = new GameResult(scoreBoard, language);
+            return new EndOfTheGame(gameResult, language);
         } else {
             currentPlayer = currentPlayer.getOppositePlayer();
             return this;
@@ -64,10 +71,13 @@ public class GameInProgress implements GameState {
             xoBoard.applyMove(Cell.parse(userInputProvider.get()), currentPlayer);
         } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e) {
             xoBoard.printTo(output);
-            output.accept("Wrong coordinates! Player " + currentPlayer.getPlayerName() + ", try again:");
+            output.accept(language.getProperty("wrongCoordPlayer", "Wrong coordinates! Player ") +
+                    currentPlayer.getPlayerName() + language.getProperty("tryAgain", ", try again:"));
             makeMove();
         } catch (CellBusyException e) {
-            output.accept("Cell [" + e.getCellIndex() + "] is already busy. Player " + currentPlayer + ", try again:");
+            output.accept(language.getProperty("cellA", "Cell [") + e.getCellIndex() +
+                    language.getProperty("isAlreadyBusy", "] is already busy. Player ") +
+                    currentPlayer + language.getProperty("tryAgain", ", try again:"));
             makeMove();
         }
     }
@@ -85,11 +95,12 @@ public class GameInProgress implements GameState {
             scoreBoard.addPointsForPlayer(matchResult);
             xoBoard = XOBoard.parse(boardDimensionsAsString);
             output.accept(matchResult.getMessage());
-            output.accept("X: " + String.valueOf(scoreBoard.getPlayerPoints(Player.X)) + " O: " + String.valueOf(scoreBoard.getPlayerPoints(Player.O)));
+            output.accept("X: " + String.valueOf(scoreBoard.getPlayerPoints(Player.X)) + " O: "
+                    + String.valueOf(scoreBoard.getPlayerPoints(Player.O)));
             currentPlayer = whoStartedRecently.getWhoStartedRecently(currentPlayer);
             matchCounter++;
             if (matchCounter < expectedRoundAmount) {
-                output.accept("Match number " + (matchCounter + 1) + ":");
+                output.accept(language.getProperty("matchNumber", "Match number ") + (matchCounter + 1) + ":");
             }
         }
     }

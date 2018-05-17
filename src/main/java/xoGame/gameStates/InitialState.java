@@ -35,12 +35,13 @@ public class InitialState implements GameState {
         this.userInputProvider = userInputProvider;
         initializeGame();
 
-        output.accept("Match number 1:");
+        output.accept(language.getProperty("matchNumber1", "Match number 1:"));
         return new GameInProgress(
                 startingPlayer,
                 xoBoard,
                 victoryChecker,
-                new ScoreBoard());
+                new ScoreBoard(),
+                language);
     }
 
 
@@ -59,7 +60,7 @@ public class InitialState implements GameState {
             try {
                 victoryChecker = VictoryChecker.parse("3", xoBoard);
             } catch (TooManyArgumentsException e) {
-                output.accept("Too many arguments: " + e.getArguments());
+                output.accept(language.getProperty("tooManyArguments", "Too many arguments: ") + e.getArguments());
             }
         }
 
@@ -104,7 +105,7 @@ public class InitialState implements GameState {
             output.accept(language.getProperty("demandWinCond", "Give winning condition:"));
             victoryChecker = VictoryChecker.parse(userInputProvider.get(), xoBoard);
         } catch (IllegalArgumentException e) {
-            output.accept(language.getProperty("wringWinningCond", "Wrong winning conditions!"));
+            output.accept(language.getProperty("wrongWinningCond", "Wrong winning conditions!"));
             createVictoryChecker();
         } catch (TooManyArgumentsException e) {
             output.accept(language.getProperty("tooManyArguments", "Too many arguments: ") + e.getArguments());

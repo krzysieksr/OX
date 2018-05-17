@@ -10,6 +10,7 @@ import xoGame.xoGameExceptions.TooManyArgumentsException;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -31,7 +32,7 @@ public class GameInProgressTest {
         Supplier<String> userInputProvider = new Scanner(System.in)::nextLine;
         Player player = Player.X;
 
-        GameState gameInProgress = new GameInProgress(player, xoBoard, victoryChecker, scoreBoard);
+        GameState gameInProgress = new GameInProgress(player, xoBoard, victoryChecker, scoreBoard, new Properties());
         gameInProgress.printTo(consumer);
 
         //when
@@ -51,7 +52,7 @@ public class GameInProgressTest {
         ScoreBoard scoreBoard = new ScoreBoard();
 
         // when
-        GameState gameInProgress = new GameInProgress(player, xoBoard, victoryChecker, scoreBoard);
+        GameState gameInProgress = new GameInProgress(player, xoBoard, victoryChecker, scoreBoard, new Properties());
         while (gameInProgress instanceof GameInProgress) {
             for (int i = 1; i < 14; i++) {
                 String inputIndex = String.valueOf(i);
