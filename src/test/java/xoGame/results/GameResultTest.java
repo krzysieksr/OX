@@ -4,6 +4,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import xoGame.components.ScoreBoard;
 
+import java.util.Properties;
+
 public class GameResultTest {
 
 
@@ -11,7 +13,7 @@ public class GameResultTest {
     public void testGetResult() {
         ScoreBoard scoreBoard = new ScoreBoard();
         scoreBoard.addPointsForPlayer(MatchResult.X);
-        GameResult gameResult = new GameResult(scoreBoard);
+        GameResult gameResult = new GameResult(scoreBoard, new Properties());
 
         Results returnedResult = gameResult.getResult();
 
@@ -22,7 +24,7 @@ public class GameResultTest {
     public void testToString() {
         ScoreBoard scoreBoard = new ScoreBoard();
         scoreBoard.addPointsForPlayer(MatchResult.X);
-        GameResult gameResult = new GameResult(scoreBoard);
+        GameResult gameResult = new GameResult(scoreBoard, new Properties());
 
         String returnedResult = gameResult.toString();
 
